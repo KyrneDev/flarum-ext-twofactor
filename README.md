@@ -1,6 +1,6 @@
 # Two Factor
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/issyrocks12/flarum-ext-twofactor/license.md) [![Latest Stable Version](https://img.shields.io/packagist/v/issyrocks12/flarum-ext-twofactor.svg)](https://github.com/issyrocks12/flarum-ext-twofactor) [![Donate](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://paypal.me/CDK2020)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/issyrocks12/flarum-ext-twofactor/blob/master/LICENSE) [![Latest Stable Version](https://img.shields.io/packagist/v/issyrocks12/flarum-ext-twofactor.svg)](https://github.com/issyrocks12/flarum-ext-twofactor) [![Donate](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://paypal.me/CDK2020)
 
 A [Flarum](http://flarum.org) extension that increases security by adding TOTP two factor authentication
 
