@@ -1,0 +1,43 @@
+{
+    "name": "issyrocks12/flarum-ext-twofactor",
+    "description": "Add TOTP 2 factor authentication",
+    "type": "flarum-extension",
+    "keywords": ["twofactor"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Charlie K",
+            "email": "charlie@jailbreakhub.org"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/issyrocks12/flarum-ext-twofactor/issues",
+        "source": "https://github.com/issysrocks12/flarum-ext-twofactor"
+    },
+    "require": {
+        "flarum/core": "^0.1.0-beta.6",
+        "pragmarx/google2fa": "^v1.0.1"
+        
+    },
+    "autoload": {
+        "psr-4": {
+            "issyrocks12\\twofactor\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        },
+        "flarum-extension": {
+            "title": "Two Factor",
+            "icon": {
+                "image": "icon.png",
+                "backgroundColor": "#263238",
+                "backgroundSize": "70%",
+                "backgroundRepeat": "no-repeat",
+                "backgroundPosition": "center",
+                "color": "#fff"
+            }
+        }
+    }
+}
