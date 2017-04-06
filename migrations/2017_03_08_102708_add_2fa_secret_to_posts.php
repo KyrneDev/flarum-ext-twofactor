@@ -12,10 +12,10 @@ return [
         });
     },
   'down' => function (Builder $schema) {
-        $schema->table('users', function (Blueprint $table) {
-            $table->dropColumn('google2fa_secret');
-            $table->dropColumn('twofa_enabled');
-            $table->dropColumn('recovery_codes');                               
-        });
-      } 
+      $schema->table('users', function (Blueprint $table) {
+          $table->dropColumn('google2fa_secret');
+          $table->dropColumn('twofa_enabled');
+          $table->dropColumn('recovery_codes');
+      });
+  },
   ];
