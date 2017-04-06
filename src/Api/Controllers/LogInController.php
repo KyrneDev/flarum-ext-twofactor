@@ -18,7 +18,6 @@ use Flarum\Http\AccessToken;
 use Flarum\Http\Controller\ControllerInterface;
 use Flarum\Http\Rememberer;
 use Flarum\Http\SessionAuthenticator;
-use issyrocks12\twofactor\Api\Controllers\TokenController;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Diactoros\Response\JsonResponse;
@@ -47,9 +46,9 @@ class LogInController implements ControllerInterface
 
     /**
      * @param \Flarum\Core\Repository\UserRepository $users
-     * @param Client $apiClient
-     * @param SessionAuthenticator $authenticator
-     * @param Rememberer $rememberer
+     * @param Client                                 $apiClient
+     * @param SessionAuthenticator                   $authenticator
+     * @param Rememberer                             $rememberer
      */
     public function __construct(UserRepository $users, Client $apiClient, SessionAuthenticator $authenticator, Rememberer $rememberer)
     {
@@ -61,6 +60,7 @@ class LogInController implements ControllerInterface
 
     /**
      * @param Request $request
+     *
      * @return JsonResponse|EmptyResponse
      */
     public function handle(Request $request)
@@ -73,7 +73,7 @@ class LogInController implements ControllerInterface
 
         if ($response->getStatusCode() === 200) {
             $data = json_decode($response->getBody());
-	
+
             $session = $request->getAttribute('session');
             $this->authenticator->logIn($session, $data->userId);
 
@@ -81,7 +81,7 @@ class LogInController implements ControllerInterface
 
             event(new UserLoggedIn($this->users->findOrFail($data->userId), $token));
 
-            $response = $this->rememberer->remember($response, $token, ! array_get($body, 'remember'));
+            $response = $this->rememberer->remember($response, $token, !array_get($body, 'remember'));
         }
 
         return $response;

@@ -12,7 +12,6 @@
 namespace issyrocks12\twofactor\Api\Controllers;
 
 use Flarum\Core\Exception\PermissionDeniedException;
-use Flarum\Core\Exception\ValidationException;
 use Flarum\Core\Repository\UserRepository;
 use Flarum\Http\AccessToken;
 use Flarum\Http\Controller\ControllerInterface;
@@ -38,17 +37,17 @@ class TokenController implements ControllerInterface
      * @var EventDispatcher
      */
     protected $events;
-    
+
     /**
      * @var TwoFactor
      */
     private $twoFactor;
 
     /**
-     * @param UserRepository $users
-     * @param BusDispatcher $bus
+     * @param UserRepository  $users
+     * @param BusDispatcher   $bus
      * @param EventDispatcher $events
-     * @param TwoFactor $twoFactor
+     * @param TwoFactor       $twoFactor
      */
     public function __construct(UserRepository $users, BusDispatcher $bus, EventDispatcher $events, TwoFactor $twoFactor)
     {
@@ -69,47 +68,38 @@ class TokenController implements ControllerInterface
         $password = array_get($body, 'password');
         $lifetime = array_get($body, 'lifetime', 3600);
         $twofactor = array_get($body, 'twofactor');
-			
 
-				if ($twofactor == null) {
-					$twofactor = '0';
-				}
-			
+        if ($twofactor == null) {
+            $twofactor = '0';
+        }
+
         $user = $this->users->findByIdentification($identification);
-        if (! $user || ! $user->checkPassword($password)) {
-            throw new PermissionDeniedException;
+        if (!$user || !$user->checkPassword($password)) {
+            throw new PermissionDeniedException();
         }
 
-        
-        if ($user->twofa_enabled == 1)
-        {	
-					
-					if ($this->twoFactor->verifyCode($user, $twofactor) == true || $this->twoFactor->doRecovery($twofactor, $user) == true)
-							{
-							
-            		$token = AccessToken::generate($user->id, $lifetime);
-        				$token->save();
+        if ($user->twofa_enabled == 1) {
+            if ($this->twoFactor->verifyCode($user, $twofactor) == true || $this->twoFactor->doRecovery($twofactor, $user) == true) {
+                $token = AccessToken::generate($user->id, $lifetime);
+                $token->save();
 
-	
-        				return new JsonResponse([
-            				'token' => $token->id,
-            				'userId' => $user->id
-        				]);
-        		} else {
-							  return new JsonResponse([
-            				'code' => '404'
-        				]);
-						}
+                return new JsonResponse([
+                            'token'  => $token->id,
+                            'userId' => $user->id,
+                        ]);
+            } else {
+                return new JsonResponse([
+                            'code' => '404',
+                        ]);
+            }
         } else {
-        		$token = AccessToken::generate($user->id, $lifetime);
-        		$token->save();
+            $token = AccessToken::generate($user->id, $lifetime);
+            $token->save();
 
-        		return new JsonResponse([
-          		  'token' => $token->id,
-            		'userId' => $user->id
-        		]);
+            return new JsonResponse([
+                    'token'  => $token->id,
+                    'userId' => $user->id,
+                ]);
         }
-
-
     }
 }
