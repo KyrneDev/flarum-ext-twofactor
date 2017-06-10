@@ -52,12 +52,15 @@ class AddApiAttributes
          if ($event->isSerializer(UserSerializer::class)) {
              $codes = explode(',', $event->model->recovery_codes);
              $url = $this->TwoFactor->getURL($event->actor);
-             $event->attributes['url'] = $url;
-             $event->attributes['enabled'] = $event->model->twofa_enabled;
-             $event->attributes['secret'] = chunk_split($event->model->google2fa_secret, 4, ' ');
-             $event->attributes['recovery1'] = $codes[0];
-             $event->attributes['recovery2'] = $codes[1];
-             $event->attributes['recovery3'] = $codes[2];
+           
+             if ($event->actor->id === $event->model->id) {
+                $event->attributes['url'] = $url;
+                $event->attributes['enabled'] = $event->model->twofa_enabled;
+                $event->attributes['secret'] = chunk_split($event->model->google2fa_secret, 4, ' ');
+                $event->attributes['recovery1'] = $codes[0];
+                $event->attributes['recovery2'] = $codes[1];
+                $event->attributes['recovery3'] = $codes[2];
+              }
          }
      }
 
